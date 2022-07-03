@@ -30,6 +30,3 @@ def dnaTranscript(dnaFormated):
             rna = rna + dict.get(dnaFormated[i][j])
 
     return rna
-
-def rnaFormat(rna):
-    rna = wrap(rna, 3)

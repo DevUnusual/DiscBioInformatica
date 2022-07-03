@@ -12,7 +12,7 @@ def main():
         dnaFormated = fBio.read()
         rna = fBio.dnaTranscript(dnaFormated)
         output = open(args.output, "w")
-        output.write("RNA trascrito a partir do DNA:\n" + rna)
+        output.write(rna)
 
     else:
         args.file = args.file.replace("\\", "\\\\") #tratando as barras para ser possivel acessar o arquivo
@@ -20,7 +20,7 @@ def main():
         #------------------- Arquivo lido e formatado para devolver uma lista de dna organizado ----------------------------------
         rna = fBio.dnaTranscript(dnaFormated) #funcao que transcreve o dna em rna
         output = open(args.output, "w") #escrever em arquivo a traducao
-        output.write("RNA trascrito a partir do DNA:\n" + rna) 
+        output.write(rna) 
         
 
 main()
