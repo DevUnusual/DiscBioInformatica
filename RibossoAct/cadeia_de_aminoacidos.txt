@@ -1,0 +1,1 @@
+['Metionina', 'Isoleucina', 'Ácido aspártico', 'Asparagina', 'Asparagina', 'Glutamina', 'Treonina', 'Glutamina', 'Histidina', 'Arginina', 'Leucina', 'Alanina', 'Alanina', 'Glutamina', 'Histidina', 'Prolina', 'Asparagina', 'Arginina', 'Leucina', 'Ácido aspártico', 'Serina', 'stop']

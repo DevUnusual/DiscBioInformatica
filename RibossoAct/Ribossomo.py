@@ -43,9 +43,8 @@ def main():
     print("sequencias de aminoacidos encontradas:")
     for i in aminoacidos:
         print(i)
-    print("Imprimindo no arquivo proteinas.txt")
-    resultado = open("proteinas.txt", "w")
-    resultado.write("Proteinas:\n")
+    print("Imprimindo no arquivo Cadeia_de_aminoacidos.txt")
+    resultado = open("cadeia_de_aminoacidos.txt", "w")
     for i in aminoacidos:
         resultado.write(str(i)+"\n")
 
