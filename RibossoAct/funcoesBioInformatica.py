@@ -34,7 +34,6 @@ def readRna():
         rnaRead = file.readlines() #Lendo linha do arquivo
         rnaRead = [element.upper().strip() for element in rnaRead] #fazendo tratamento no arquivo convertendo todas as string para maiusculo
         rnaRead = list(filter(None, rnaRead)) #tirando linhas vazias caso tenha
-        print(rnaRead)
         return rnaRead[0]
     except FileNotFoundError as e:
         print(e)

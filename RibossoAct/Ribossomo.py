@@ -1,5 +1,6 @@
 import funcoesBioInformatica as fBio
 import re
+#aug:metionina cua:Leucina cgu:arginina agc:serina uag
 geneticCode = {'UUU' : 'Fenilalanina' , 'UUC' : 'Fenilalanina' , 'UUA' : 'Leucina' , 'UUG' : 'Leucina', 'CUU' : 'Leucina' , 'CUC' : 'Leucina' , 'CUA' : 'Leucina' , 'CUG' : 'Leucina', 
                'AUU' : 'Isoleucina' , 'AUC' : 'Isoleucina' , 'AUA' : 'Isoleucina', 'AUG' : 'Metionina', 'GUU' : 'Valina', 'GUC' : 'Valina' , 'GUA' : 'Valina' , 'GUG' : 'Valina' ,
                'UCU' : 'Serina' , 'UCC' : 'Serina' , 'UCA' : 'Serina' , 'UCG' : 'Serina' , 'CCU' : 'Prolina' , 'CCC' : 'Prolina' , 'CCA' : 'Prolina' , 'CCG' : 'Prolina' ,
@@ -11,31 +12,41 @@ geneticCode = {'UUU' : 'Fenilalanina' , 'UUC' : 'Fenilalanina' , 'UUA' : 'Leucin
 
 def main():
     rna = fBio.readRna()
-    print("antes do regex", rna)
     rnaCodons = re.findall("([A-Z][A-Z][A-Z])", rna)
+    rnaCodons.append("END")
     initialPosition = 0
     atualPosition = 0
-    amminoacidos = []
+    aminoacidos = []
     tempAminoacidos = []
-    for i in range(len(rnaCodons[atualPosition:])):
-        if rnaCodons[i] == 'AUG':
-            initialPosition = i
-            atualPosition += 1
-            break
-        elif rnaCodons[i] == 'END':
-            print("Nao foi encontrado nenhum codon que inicia o processo de criacao da proteina")
-    for i in rnaCodons[initialPosition:]:
-        temp = geneticCode.get(i)
-        if rnaCodons[atualPosition] == "END":
-            atualPosition += 1
-            break
-        if temp != False:
-            tempAminoacidos.append(temp)
-            atualPosition += 1
-        else:
-            amminoacidos.append(tempAminoacidos)
-            atualPosition += 1
-            break
-    print(amminoacidos)
+    while rnaCodons[atualPosition] != "END":
+        for i in range(atualPosition,len(rnaCodons[atualPosition:])):
+            temp = rnaCodons[i]
+            if temp == 'AUG':
+                initialPosition = i
+                atualPosition = i
+                break
+            elif temp == 'END':
+                print("Nao foi encontrado nenhum codon que inicia o processo de criacao da proteina")
+        for i in rnaCodons[initialPosition:]:
+            temp = geneticCode.get(i)
+            if rnaCodons[atualPosition] == "END":
+                break
+            if temp != False:
+                tempAminoacidos.append(temp)
+                atualPosition += 1
+            else:
+                tempAminoacidos.append("stop")
+                aminoacidos.append(tempAminoacidos)
+                tempAminoacidos = []
+                atualPosition += 1
+                break
+    print("sequencias de aminoacidos encontradas:")
+    for i in aminoacidos:
+        print(i)
+    print("Imprimindo no arquivo proteinas.txt")
+    resultado = open("proteinas.txt", "w")
+    resultado.write("Proteinas:\n")
+    for i in aminoacidos:
+        resultado.write(str(i)+"\n")
 
 main()
