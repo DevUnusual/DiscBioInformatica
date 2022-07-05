@@ -1,4 +1,3 @@
-from more_itertools import iterate
 import funcoesBioInformatica as fBio
 import re
 geneticCode = {'UUU' : 'Fenilalanina' , 'UUC' : 'Fenilalanina' , 'UUA' : 'Leucina' , 'UUG' : 'Leucina', 'CUU' : 'Leucina' , 'CUC' : 'Leucina' , 'CUA' : 'Leucina' , 'CUG' : 'Leucina', 
@@ -12,32 +11,31 @@ geneticCode = {'UUU' : 'Fenilalanina' , 'UUC' : 'Fenilalanina' , 'UUA' : 'Leucin
 
 def main():
     rna = fBio.readRna()
+    print("antes do regex", rna)
     rnaCodons = re.findall("([A-Z][A-Z][A-Z])", rna)
     initialPosition = 0
     atualPosition = 0
-    iterate = 0
     amminoacidos = []
     tempAminoacidos = []
-    while iterate < len(rnaCodons):
-        for i in range(len(rnaCodons[atualPosition:])):
-            if rnaCodons[i] == 'AUG':
-                initialPosition = i
-                iterate = i
-                break
-            elif rnaCodons[i] == 'END':
-                print("Nao foi encontrado nenhum codon que inicia o processo de criacao da proteina")
-        for i in rnaCodons[initialPosition:]:
-            temp = geneticCode.get(i)
-            if rnaCodons[iterate] == "END":
-                iterate += 1
-                break
-            if temp != False:
-                tempAminoacidos.append(temp)
-                iterate += 1
-            else:
-                amminoacidos.append(tempAminoacidos)
-                iterate += 1
-                break
+    for i in range(len(rnaCodons[atualPosition:])):
+        if rnaCodons[i] == 'AUG':
+            initialPosition = i
+            atualPosition += 1
+            break
+        elif rnaCodons[i] == 'END':
+            print("Nao foi encontrado nenhum codon que inicia o processo de criacao da proteina")
+    for i in rnaCodons[initialPosition:]:
+        temp = geneticCode.get(i)
+        if rnaCodons[atualPosition] == "END":
+            atualPosition += 1
+            break
+        if temp != False:
+            tempAminoacidos.append(temp)
+            atualPosition += 1
+        else:
+            amminoacidos.append(tempAminoacidos)
+            atualPosition += 1
+            break
     print(amminoacidos)
 
 main()
