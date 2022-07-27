@@ -1,5 +1,3 @@
-from textwrap import wrap
-
 
 def read(caminho= "dna.txt"):
     try:
@@ -23,7 +21,7 @@ def read(caminho= "dna.txt"):
         print("houve algum erro no codigo")
 
 def dnaTranscript(dnaFormated):
-    dict = {"A": "T", "T": "U", "G":"C", "C": "G"}
+    dict = {"A": "U", "T": "A", "G":"C", "C": "G"}
     rna = ""
     for i in range(len(dnaFormated)):
         for j in range(len(dnaFormated[i])):
