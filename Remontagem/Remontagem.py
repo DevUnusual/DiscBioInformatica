@@ -2,7 +2,7 @@ from importExport import *
 import numpy as np
 from numpy.lib import recfunctions as rfn
 
-kmer = kmerImport()
+kmer = kmerImport("composicao_1_Bioinformaticas_size_30000_k_20.txt")
 kmer = np.array(kmer)
 
 print(kmer)
@@ -15,9 +15,9 @@ def separarTuplas(kmer):
     tuplas = []
     for i in sorted(kmer):
         # kmer-1, -1kmer, posicao tabela
-        tuplas.append((i[:len(i)-1], i[1:len(i)], contador))
+        tuplas.append((i[:len(i)-1], i[1:], contador))
         contador += 1
-    # print(tuplas, 'tuplas')
+    #print(tuplas, 'tuplas')
     return np.array(tuplas)
 
 
@@ -40,7 +40,7 @@ def lenkmers(tuplas):
         if i[1] not in visitados:
             kmers += 1
             visitados.append(i[1])
-    # print('kmers', kmers)
+    #print('kmers', kmers)
     # print('visitados', visitados)  # AT TC TG TT CA CC GA AC GC
     return (visitados, kmers)
 
@@ -52,23 +52,22 @@ def percorreTabela(tabela, kmers):
         kmerProximo.append([])
 
     for i in tabela:
-        # print('i',i, 'linha', linha, 'pos', i.nonzero()[0])
+        #print('i', i, 'linha', linha, 'pos', i.nonzero()[0])
         if not i.any(where=1):
-            # print(f'--> {kmers[linha]} final do caminho')
+            #print(f'--> {kmers[linha]} final do caminho')
             final = linha
-        # print(
-            # f'lista {kmerProximo} len {len(kmerProximo)} acessando 0 {kmerProximo[0]}')
+        #print(f'lista {kmerProximo} len {len(kmerProximo)} acessando 0 {kmerProximo[0]}')
         for k in i.nonzero()[0]:
-            # print(f'{kmers[linha]} apontando para {kmers[k]}')
+            #print(f'{kmers[linha]} apontando para {kmers[k]}')
             value = tabela[linha][k]
             for j in range(value):
                 kmerProximo[int(kmers.index(kmers[linha]))].append(k)
         linha = linha + 1
-    # print(kmerProximo, 'kmerProximo')
+    #print(kmerProximo, 'kmerProximo')
     return (final, kmerProximo)
 
 
-def caminho(final, ligacoes, visitados):
+def caminho(final, ligacoes):
     passoApasso = []
     passoApasso.append(final)
     while np.array(ligacoes, dtype=object).size > 0:
@@ -79,12 +78,12 @@ def caminho(final, ligacoes, visitados):
                     ligacoes[kmerAnterior].remove(unidade)
                     passoApasso.append(kmerAnterior)
                     final = kmerAnterior
-                    # print(f'passo a passo {passoApasso}')
-                    # print(f'ligacoes {ligacoes}')
+                    #print(f'passo a passo {passoApasso}')
+                    #print(f'ligacoes {ligacoes}')
                     continue
-                # print(f'{unidade} <- unidade, final -> {final}')
+                #print(f'{unidade} <- unidade, final -> {final}')
 
-    # print(passoApasso, 'passo a passo')
+    #print(passoApasso, 'passo a passo')
     return passoApasso
 
 
@@ -101,10 +100,10 @@ tuplas = separarTuplas(kmer)
 (visitados, kmers) = lenkmers(tuplas)
 tabela = makeTable(tuplas, visitados, kmers)
 (final, ligacoes) = percorreTabela(tabela, visitados)
-way = caminho(final, ligacoes, visitados)
+way = caminho(final, ligacoes)
 resultadoFinal = imprimirCaminho(way[:: -1], visitados)
-#print('ligacoes', ligacoes)
-print('way', way)
+# print('ligacoes', ligacoes)
+# print('way', way)
 print('resultadoFinal', resultadoFinal, len(resultadoFinal))
 
 kmerExport(resultadoFinal)

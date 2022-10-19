@@ -22,5 +22,5 @@ def kmersOrdenados(kmer):
 
 
 def kmerExport(way):
-    kmerfile = open("output.txt", "w")
+    kmerfile = open("CarlosSousa.txt", "w")
     kmerfile.write(way)
